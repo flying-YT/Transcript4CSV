@@ -27,8 +27,7 @@ class WordFunction
         list.Add("あえっと。,");
         list.Add("あえっと、,");
         list.Add("あえっと,");
-        list.Add(",");
-        list.Add(",");
+        //list.Add(",");
         return list;
     }
 }

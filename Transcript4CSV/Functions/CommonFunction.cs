@@ -47,6 +47,16 @@ class CommonFunction
         return sb.ToString();
     }
 
+    public static string ConvertNewLineAndListtiString(List<string> list)
+    {
+        StringBuilder sb = new StringBuilder();
+        foreach(string data in list)
+        {
+            sb.Append(data + "\r\n");
+        }
+        return sb.ToString();
+    }
+
     public static List<string> ConvertCSVList(List<UtteranceData> datas, bool isHeader=true)
     {
         List<string> list = new List<string>();

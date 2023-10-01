@@ -6,13 +6,13 @@ using Transcript4CSV.Functions;
 using Transcript4CSV.Model;
 
 namespace Transcript4CSV;
-public class Transcript4CSV
+public class TranscriptProcess
 {
     private static string outputPath = "";
     private static string vttFilePath = "";
     private static List<UtteranceData> utteranceDatas = new List<UtteranceData>();
 
-    public Transcript4CSV(string _vttFilePath, string _outputPath="")
+    public TranscriptProcess(string _vttFilePath, string _outputPath="")
     {
         vttFilePath = _vttFilePath;
         if(_outputPath == "")
@@ -24,6 +24,11 @@ public class Transcript4CSV
             outputPath = _outputPath;
         }
         MakeCSV();
+    }
+
+    public void WriteCSVFile(bool isHeader=true)
+    {
+        FileFunction.WriteCSVFile(utteranceDatas, outputPath, isHeader);
     }
 
     private static void MakeCSV()
@@ -52,21 +57,27 @@ public class Transcript4CSV
         List<UtteranceData> modelList = new List<UtteranceData>();
         WordFunction wordFunction = new WordFunction();
 
-        string text = CommonFunction.ListToString(list);
+        string text = "";
         string lineKey = "";
         if(_isVtagType)
         {
-            lineKey = @"(?<start>(\d{1,2}:\d{1,2}:\d{1,2}.\d{1,3})*?)" + " --> " + @"(?<end>(\d{1,2}:\d{1,2}:\d{1,2}.\d{3})*?)\r\n" + "<v (?<speaker>.*?)>(?<text>.*?)</v>";
+            text = CommonFunction.ListToString(list);
+            lineKey = @"(?<start>(\d{1,2}:\d{1,2}:\d{1,2}.\d{1,3})*?)" + " --> " + @"(?<end>(\d{1,2}:\d{1,2}:\d{1,2}.\d{3})*?)" + "<v (?<speaker>.*?)>(?<text>.*?)</v>";
         }
         else
         {
+            text = CommonFunction.ConvertNewLineAndListtiString(list);
+            text = text.Replace("WEBVTT", "");
             lineKey = @"(?<speaker>.*?)\r\n" + @"(?<start>(\d{1,2}:\d{1,2}:\d{1,2}.\d{1,3})*?)" + " --> " + @"(?<end>(\d{1,2}:\d{1,2}:\d{1,2}.\d{3})*?)\r\n" + @"(?<text>.*?)\r\n";
         }
+
         Regex reg = new Regex(lineKey, RegexOptions.IgnoreCase | RegexOptions.Singleline);
         for (Match m = reg.Match(text); m.Success; m = m.NextMatch())
         {
             string formatStr = wordFunction.Formatting(m.Groups["text"].Value);
-            modelList.Add(new UtteranceData { Speaker = m.Groups["speaker"].Value, Text = formatStr, StartDate = m.Groups["start"].Value, EndDate = m.Groups["end"].Value });
+            string[] speaker = m.Groups["speaker"].Value.Split('/');
+            modelList.Add(new UtteranceData { Speaker = speaker[0], Text = formatStr, StartDate = m.Groups["start"].Value, EndDate = m.Groups["end"].Value });
+            //modelList.Add(new UtteranceData { Speaker = m.Groups["speaker"].Value, Text = formatStr, StartDate = m.Groups["start"].Value, EndDate = m.Groups["end"].Value });
         }
 
         return modelList;
@@ -98,6 +109,7 @@ public class Transcript4CSV
                 utterance = data;
             }
         }
+        modelList.Add(utterance);
 
         List<UtteranceData> returnList = new List<UtteranceData>();
         foreach(UtteranceData data in modelList)
