@@ -1,10 +1,10 @@
-namespace Functions;
-class wordFunction
+namespace Transcript4CSV.Functions;
+class WordFunction
 {
     private readonly List<string> changeWordList = new List<string>();
     public WordFunction()
     {
-        changeWordList = FMakeChangeWordList();
+        changeWordList = MakeChangeWordList();
     }
 
     public string Formatting(string text)

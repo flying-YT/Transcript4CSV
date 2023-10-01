@@ -1,9 +1,14 @@
-namespace Functions;
+using System;
+using System.Text;
+
+using Transcript4CSV.Model;
+
+namespace Transcript4CSV.Functions;
 class CommonFunction
 {
     public static bool JudgeVttFile(List<string> list)
     {
-        readonly string vttString = "WEBVTT";
+        string vttString = "WEBVTT";
         if(list[0].Contains(vttString))
         {
             return true;
@@ -40,5 +45,22 @@ class CommonFunction
             sb.Append(data);
         }
         return sb.ToString();
+    }
+
+    public static List<string> ConvertCSVList(List<UtteranceData> datas, bool isHeader=true)
+    {
+        List<string> list = new List<string>();
+
+        if(isHeader)
+        {
+            list.Add(string.Format("{0},{1},{2},{3}", "Speaker", "Text", "StartTime", "EndTime"));
+        }
+
+        foreach(UtteranceData data in datas)
+        {
+            list.Add(string.Format("{0},{1},{2},{3}", data.Speaker, data.Text, data.StartDate, data.EndDate));
+        }
+
+        return list;
     }
 }

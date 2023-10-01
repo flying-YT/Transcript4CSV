@@ -1,4 +1,4 @@
-namespace Model;
+namespace Transcript4CSV.Model;
 class UtteranceData
 {
     public string Speaker { get; set; }

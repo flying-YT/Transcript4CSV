@@ -1,27 +1,50 @@
-﻿using Functions;
+﻿using System;
+using System.Text;
+using System.Text.RegularExpressions;
+
+using Transcript4CSV.Functions;
+using Transcript4CSV.Model;
 
 namespace Transcript4CSV;
 public class Transcript4CSV
 {
-    public static void MakeCSV(string path)
+    private static string outputPath = "";
+    private static string vttFilePath = "";
+    private static List<UtteranceData> utteranceDatas = new List<UtteranceData>();
+
+    public Transcript4CSV(string _vttFilePath, string _outputPath="")
+    {
+        vttFilePath = _vttFilePath;
+        if(_outputPath == "")
+        {
+            outputPath = Directory.GetCurrentDirectory();
+        }
+        else
+        {
+            outputPath = _outputPath;
+        }
+        MakeCSV();
+    }
+
+    private static void MakeCSV()
     {
         // Read vtt file
-        List<string> vttList = FileFunction.ReadFile(path);
+        List<string> vttList = FileFunction.ReadFile(vttFilePath);
 
         // Judge vtt file
         if(!CommonFunction.JudgeVttFile(vttList))
         {
-            return false;
+            throw new Exception("The specified vttfile is not valid.");;
         }
 
         // Judge vtt type
         bool isVtagType = CommonFunction.JudgeVttType(vttList);
 
         // Make UtteranceDataList
-        List<UtteranceData> UtteranceDataList = MakeUtteranceDataList(vttList, isVtagType);
+        List<UtteranceData> utteranceDataList = MakeUtteranceDataList(vttList, isVtagType);
 
         // Sort speaker to List
-        UtteranceDataList = SortSpeakerToList(UtteranceData);
+        utteranceDatas = SortSpeakerToList(utteranceDataList);
     }
 
     private static List<UtteranceData> MakeUtteranceDataList(List<string> list, bool _isVtagType)
@@ -29,7 +52,7 @@ public class Transcript4CSV
         List<UtteranceData> modelList = new List<UtteranceData>();
         WordFunction wordFunction = new WordFunction();
 
-        string str = CommonFunction.ListToString(list);
+        string text = CommonFunction.ListToString(list);
         string lineKey = "";
         if(_isVtagType)
         {
@@ -43,7 +66,7 @@ public class Transcript4CSV
         for (Match m = reg.Match(text); m.Success; m = m.NextMatch())
         {
             string formatStr = wordFunction.Formatting(m.Groups["text"].Value);
-            utteranceDatas.Add(new UtteranceData { Speaker = m.Groups["speaker"].Value, Text = formatStr, StartDate = m.Groups["start"].Value, EndDate = m.Groups["end"].Value });
+            modelList.Add(new UtteranceData { Speaker = m.Groups["speaker"].Value, Text = formatStr, StartDate = m.Groups["start"].Value, EndDate = m.Groups["end"].Value });
         }
 
         return modelList;
@@ -58,10 +81,10 @@ public class Transcript4CSV
         {
             if(utterance.Speaker == data.Speaker)
             {
-                if(utterance.Text <= 512)
+                if(utterance.Text.Length <= 512)
                 {
                     utterance.Text += data.Text;
-                    utterance.EndFate = data.EndDate;
+                    utterance.EndDate = data.EndDate;
                 }
                 else
                 {
@@ -71,7 +94,7 @@ public class Transcript4CSV
             }
             else
             {
-                mdeol.Add(utterance);
+                modelList.Add(utterance);
                 utterance = data;
             }
         }
