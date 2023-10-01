@@ -19,6 +19,9 @@ public class Transcript4CSV
 
         // Make UtteranceDataList
         List<UtteranceData> UtteranceDataList = MakeUtteranceDataList(vttList, isVtagType);
+
+        // Sort speaker to List
+        UtteranceDataList = SortSpeakerToList(UtteranceData);
     }
 
     private static List<UtteranceData> MakeUtteranceDataList(List<string> list, bool _isVtagType)
@@ -44,5 +47,44 @@ public class Transcript4CSV
         }
 
         return modelList;
+    }
+
+    private static List<UtteranceData> SortSpeakerToList(List<UtteranceData> list)
+    {
+        List<UtteranceData> modelList = new List<UtteranceData>();
+
+        UtteranceData utterance = new UtteranceData();
+        foreach(UtteranceData data in list)
+        {
+            if(utterance.Speaker == data.Speaker)
+            {
+                if(utterance.Text <= 512)
+                {
+                    utterance.Text += data.Text;
+                    utterance.EndFate = data.EndDate;
+                }
+                else
+                {
+                    modelList.Add(utterance);
+                    utterance = data;
+                }
+            }
+            else
+            {
+                mdeol.Add(utterance);
+                utterance = data;
+            }
+        }
+
+        List<UtteranceData> returnList = new List<UtteranceData>();
+        foreach(UtteranceData data in modelList)
+        {
+            if(data.Text != "")
+            {
+                returnList.Add(data);
+            }
+        }
+
+        return returnList;
     }
 }
