@@ -8,25 +8,16 @@ using Transcript4CSV.Model;
 namespace Transcript4CSV;
 public class TranscriptProcess
 {
-    private static string outputPath = "";
     private static string vttFilePath = "";
     private static List<UtteranceData> utteranceDatas = new List<UtteranceData>();
 
-    public TranscriptProcess(string _vttFilePath, string _outputPath="")
+    public TranscriptProcess(string _vttFilePath)
     {
         vttFilePath = _vttFilePath;
-        if(_outputPath == "")
-        {
-            outputPath = Directory.GetCurrentDirectory();
-        }
-        else
-        {
-            outputPath = _outputPath;
-        }
         MakeCSV();
     }
 
-    public void WriteCSVFile(bool isHeader=true)
+    public void WriteCSVFile(string outputPath, bool isHeader=true)
     {
         FileFunction.WriteCSVFile(utteranceDatas, outputPath, isHeader);
     }
@@ -114,9 +105,12 @@ public class TranscriptProcess
         List<UtteranceData> returnList = new List<UtteranceData>();
         foreach(UtteranceData data in modelList)
         {
-            if(data.Text != "")
+            if(data.Text != null)
             {
-                returnList.Add(data);
+                if(data.Text.Length != 0)
+                {
+                    returnList.Add(data);
+                }
             }
         }
 

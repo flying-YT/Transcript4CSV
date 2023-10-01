@@ -28,7 +28,7 @@ class FileFunction
             StreamWriter sr = new StreamWriter(path, false, Encoding.UTF8);
             foreach (string str in list)
             {
-                sr.WriteLine(str);
+                sr.WriteLine(str.Replace("\r\n", ""));
             }
             sr.Close();
         }
