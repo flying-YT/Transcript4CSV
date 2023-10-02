@@ -7,6 +7,12 @@ class WordFunction
         changeWordList = MakeChangeWordList();
     }
 
+    public void AddChangeWordList(string path)
+    {
+        List<string> list = FileFunction.ReadFile(path);
+        changeWordList.AddRange(list);
+    }
+
     public string Formatting(string text)
     {
         string formattingText = text;
@@ -27,6 +33,9 @@ class WordFunction
         list.Add("あえっと。,");
         list.Add("あえっと、,");
         list.Add("あえっと,");
+        list.Add("えっと。,");
+        list.Add("えっと、,");
+        list.Add("えっと,");
         //list.Add(",");
         return list;
     }

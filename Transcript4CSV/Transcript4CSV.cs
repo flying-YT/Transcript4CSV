@@ -10,6 +10,7 @@ public class TranscriptProcess
 {
     private static string vttFilePath = "";
     private static List<UtteranceData> utteranceDatas = new List<UtteranceData>();
+    private static WordFunction wordFunction = new WordFunction();
 
     public TranscriptProcess(string _vttFilePath)
     {
@@ -17,9 +18,19 @@ public class TranscriptProcess
         MakeCSV();
     }
 
+    public void AddChangeWordList(string path)
+    {
+        wordFunction.AddChangeWordList(path);
+    }
+
     public void WriteCSVFile(string outputPath, bool isHeader=true)
     {
         FileFunction.WriteCSVFile(utteranceDatas, outputPath, isHeader);
+    }
+
+    public List<string> GetCSVData(bool isHeader=false)
+    {
+        CommonFunction.ConvertCSVList(utteranceDatas, isHeader);
     }
 
     private static void MakeCSV()
@@ -46,7 +57,6 @@ public class TranscriptProcess
     private static List<UtteranceData> MakeUtteranceDataList(List<string> list, bool _isVtagType)
     {
         List<UtteranceData> modelList = new List<UtteranceData>();
-        WordFunction wordFunction = new WordFunction();
 
         string text = "";
         string lineKey = "";
@@ -68,7 +78,6 @@ public class TranscriptProcess
             string formatStr = wordFunction.Formatting(m.Groups["text"].Value);
             string[] speaker = m.Groups["speaker"].Value.Split('/');
             modelList.Add(new UtteranceData { Speaker = speaker[0], Text = formatStr, StartDate = m.Groups["start"].Value, EndDate = m.Groups["end"].Value });
-            //modelList.Add(new UtteranceData { Speaker = m.Groups["speaker"].Value, Text = formatStr, StartDate = m.Groups["start"].Value, EndDate = m.Groups["end"].Value });
         }
 
         return modelList;
