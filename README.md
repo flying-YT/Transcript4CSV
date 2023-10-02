@@ -1,5 +1,10 @@
 # Transcript4CSV
-"Transcript4CSV" is a class that converts Teams Transcript to CSV
+"Transcript4CSV" is a class that converts Teams Transcript to CSV.
+
+## Overview
+- Group Teams transcripts by speaker.
+- Remove filler from text.
+- Output processed data as CSV.
 
 ## Usage
 1. Add dll
@@ -21,5 +26,8 @@
     ```
     - Get in List
     ```
-    transcript.WriteCSVFile("xxx.csv");
+    var list = transcript.GetCSVData();
     ```
+
+## Lisence
+This project is licensed under the MIT License, see the LICENSE.txt file for details.
