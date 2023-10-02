@@ -32,7 +32,7 @@ public class TranscriptProcess
 
     public List<string> GetCSVData(bool isHeader=false)
     {
-        CommonFunction.ConvertCSVList(utteranceDatas, isHeader);
+        return CommonFunction.ConvertCSVList(utteranceDatas, isHeader);
     }
 
     private static void MakeCSV()
