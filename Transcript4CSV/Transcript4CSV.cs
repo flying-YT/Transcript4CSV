@@ -8,7 +8,7 @@ using Transcript4CSV.Model;
 namespace Transcript4CSV;
 public class TranscriptProcess
 {
-    public static readonly string version = "1.1";
+    public static readonly string version = "1.2";
 
     private static string vttFilePath = "";
     private static List<UtteranceData> utteranceDatas = new List<UtteranceData>();
@@ -22,6 +22,11 @@ public class TranscriptProcess
     public void AddChangeWordList(string path)
     {
         wordFunction.AddChangeWordList(path);
+    }
+
+    public void AddChangeWordList(List<string> list)
+    {
+        wordFunction.AddChangeWordList(list);
     }
 
     public void WriteCSVFile(string outputPath, bool isHeader=true)

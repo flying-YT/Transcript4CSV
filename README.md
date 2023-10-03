@@ -32,6 +32,14 @@
     ```
     var list = transcript.GetCSVData();
     ```
+- If you want to add a conversion list<br>
+    ```
+    transcript.AddChangeWordList("csvPath");
+    ```
+    or
+    ```
+    transcript.AddChangeWordList(list);
+    ```
 
 ## Lisence
 This project is licensed under the MIT License, see the LICENSE.txt file for details.

@@ -13,6 +13,11 @@ class WordFunction
         changeWordList.AddRange(list);
     }
 
+    public void AddChangeWordList(List<string> list)
+    {
+        changeWordList.AddRange(list);
+    }
+
     public string Formatting(string text)
     {
         string formattingText = text;
