@@ -8,7 +8,7 @@ using Transcript4CSV.Model;
 namespace Transcript4CSV;
 public class TranscriptProcess
 {
-    private static readonly string version = "1.0";
+    public static readonly string version = "1.0";
 
     private static string vttFilePath = "";
     private static List<UtteranceData> utteranceDatas = new List<UtteranceData>();
@@ -17,7 +17,6 @@ public class TranscriptProcess
     public TranscriptProcess(string _vttFilePath)
     {
         vttFilePath = _vttFilePath;
-        MakeCSV();
     }
 
     public void AddChangeWordList(string path)
@@ -35,7 +34,7 @@ public class TranscriptProcess
         return CommonFunction.ConvertCSVList(utteranceDatas, isHeader);
     }
 
-    private static void MakeCSV()
+    public void MakeCSVList()
     {
         // Read vtt file
         List<string> vttList = FileFunction.ReadFile(vttFilePath);

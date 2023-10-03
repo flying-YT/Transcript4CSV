@@ -7,19 +7,23 @@
 - Output processed data as CSV.
 
 ## Usage
-1. Add dll
+1. Add dll<br>
     Add the dll to your project
-2. Add using
+2. Add using<br>
     Add the following description
     ```
     using Transcript4CSV;
     ```
-3. Make Instance
+3. Make Instance<br>
     Create an instance
     ```
     TranscriptProcess transcript = new TranscriptProcess("vttPath");
     ```
-4. Manipulate data
+4. Creating a List internally
+    ```
+    transcript.MakeCSVList();
+    ```
+5. Manipulate data
     - Output as CSV
     ```
     transcript.WriteCSVFile("outputPath");
