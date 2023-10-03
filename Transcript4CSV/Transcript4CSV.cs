@@ -8,7 +8,7 @@ using Transcript4CSV.Model;
 namespace Transcript4CSV;
 public class TranscriptProcess
 {
-    public static readonly string version = "1.0";
+    public static readonly string version = "1.1";
 
     private static string vttFilePath = "";
     private static List<UtteranceData> utteranceDatas = new List<UtteranceData>();
