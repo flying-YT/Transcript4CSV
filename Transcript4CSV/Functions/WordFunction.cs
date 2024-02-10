@@ -103,6 +103,8 @@ class WordFunction
         list.Add("うーん、,");
         list.Add("おい。,");
         list.Add("おい、,");
+        list.Add("あ。,");
+        list.Add("あ、,");
         //list.Add(",");
         return list;
     }
