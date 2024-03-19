@@ -8,7 +8,7 @@ using Transcript4CSV.Model;
 namespace Transcript4CSV;
 public class TranscriptProcess
 {
-    public static readonly string version = "1.2";
+    public static readonly string version = "1.3";
 
     private static string vttFilePath = "";
     private static List<UtteranceData> utteranceDatas = new List<UtteranceData>();
@@ -64,19 +64,9 @@ public class TranscriptProcess
     {
         List<UtteranceData> modelList = new List<UtteranceData>();
 
-        string text = "";
-        string lineKey = "";
-        if(_isVtagType)
-        {
-            text = CommonFunction.ListToString(list);
-            lineKey = @"(?<start>(\d{1,2}:\d{1,2}:\d{1,2}.\d{1,3})*?)" + " --> " + @"(?<end>(\d{1,2}:\d{1,2}:\d{1,2}.\d{3})*?)" + "<v (?<speaker>.*?)>(?<text>.*?)</v>";
-        }
-        else
-        {
-            text = CommonFunction.ConvertNewLineAndListtiString(list);
-            text = text.Replace("WEBVTT", "");
-            lineKey = @"(?<speaker>.*?)\r\n" + @"(?<start>(\d{1,2}:\d{1,2}:\d{1,2}.\d{1,3})*?)" + " --> " + @"(?<end>(\d{1,2}:\d{1,2}:\d{1,2}.\d{3})*?)\r\n" + @"(?<text>.*?)\r\n";
-        }
+        string text = CommonFunction.ConvertNewLineAndListString(list);
+        text = text.Replace("WEBVTT", "");
+        string lineKey = TypeCheckFunction.GetLineKey(text);
 
         Regex reg = new Regex(lineKey, RegexOptions.IgnoreCase | RegexOptions.Singleline);
         for (Match m = reg.Match(text); m.Success; m = m.NextMatch())

@@ -48,7 +48,7 @@ class CommonFunction
         return sb.ToString();
     }
 
-    public static string ConvertNewLineAndListtiString(List<string> list)
+    public static string ConvertNewLineAndListString(List<string> list)
     {
         StringBuilder sb = new StringBuilder();
         foreach(string data in list)

@@ -105,6 +105,7 @@ class WordFunction
         list.Add("おい、,");
         list.Add("あ。,");
         list.Add("あ、,");
+        list.Add("異不分,if文");
         //list.Add(",");
         return list;
     }
