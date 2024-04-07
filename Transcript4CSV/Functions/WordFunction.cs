@@ -1,3 +1,5 @@
+using System.Text.RegularExpressions;
+
 namespace Transcript4CSV.Functions;
 class WordFunction
 {
@@ -21,6 +23,29 @@ class WordFunction
     public string Formatting(string text)
     {
         string formattingText = text;
+
+        Regex reg = new Regex("(?<endChar>[^A-Za-z]) (?<startChar>[^A-Za-z])");
+        for (Match m = reg.Match(formattingText); m.Success; m = m.NextMatch())
+        {
+            if(m.Groups["endChar"].Value == "す" || m.Groups["endChar"].Value == "た" || m.Groups["endChar"].Value == "る")
+            {
+                formattingText = formattingText.Replace(m.Value, m.Groups["endChar"]  + "。" + m.Groups["startChar"]);
+            }
+            else
+            {
+                formattingText = formattingText.Replace(m.Value, m.Groups["endChar"]  + "、" + m.Groups["startChar"]);
+            }
+        }
+        char result = formattingText[formattingText.Length - 1];
+        if(result == 'す' || result == 'た' || result == 'る')
+        {
+            formattingText += "。";
+        }
+        else if(result != '。' && result != '、')
+        {
+            formattingText += "、";
+        }
+
         foreach (string change in changeWordList)
         {
             string[] changeArray = change.Split(',');
@@ -36,6 +61,15 @@ class WordFunction
     {
         List<string> list = new List<string>();
         list.Add("でしょうか,か");
+        list.Add("いたします、,する。");
+        list.Add("いたします。,する。");
+        list.Add("していましたが、,していたが、");
+        list.Add("していました。,していた。");
+        list.Add("できます。,できる。");
+        list.Add("しました、,した。");
+        list.Add("しました。,した。");
+        list.Add("思います。,思う。");
+        list.Add("します。,する。");
         list.Add("承知しました,承知した");
         list.Add("承知致しました,承知した");
         list.Add("承知いたしました,承知した");
@@ -44,6 +78,7 @@ class WordFunction
         list.Add("のところですね,ですね");
         list.Add("というところ,ところ");
         list.Add("ゆっていい,言っていい");
+        list.Add("2位のタイミング,任意のタイミング");
         list.Add("まあちょっと。,");
         list.Add("まあちょっと、,");
         list.Add("まあちょっと。,");
@@ -76,6 +111,8 @@ class WordFunction
         list.Add("えっ、とー。,");
         list.Add("えっ、とー、,");
         list.Add("ええと,");
+        list.Add("ええ？,");
+        list.Add("ええ！,");
         list.Add("ええ。,");
         list.Add("ええ、,");
         list.Add("ええ,");
@@ -87,6 +124,11 @@ class WordFunction
         list.Add("まあまあ、,");
         list.Add("まあ。,");
         list.Add("まあ、,");
+        list.Add("どうぞ。,");
+        list.Add("どうぞ、,");
+        list.Add("あはい。,");
+        list.Add("あはい、,");
+        list.Add("あはい,");
         list.Add("あのう。,");
         list.Add("あのう、,");
         list.Add("あの。,");
@@ -95,6 +137,8 @@ class WordFunction
         list.Add("あれ、,");
         list.Add("あぁ。,");
         list.Add("あぁ、,");
+        list.Add("あー。,");
+        list.Add("あー、,");
         list.Add("はい。,");
         list.Add("はい、,");
         list.Add("うん。,");
@@ -103,9 +147,17 @@ class WordFunction
         list.Add("うーん、,");
         list.Add("おい。,");
         list.Add("おい、,");
+        list.Add("そう。,");
+        list.Add("そう、,");
         list.Add("あ。,");
         list.Add("あ、,");
+        list.Add("ね。,");
+        list.Add("ね、,");
+        list.Add("パワーオートメイト,Power Automate");
+        list.Add("パワーアップス,Power Apps");
+        list.Add("リスツ,Lists");
         list.Add("異不分,if文");
+        list.Add("多過し,押下し");
         //list.Add(",");
         return list;
     }

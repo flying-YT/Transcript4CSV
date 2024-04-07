@@ -8,7 +8,7 @@ using Transcript4CSV.Model;
 namespace Transcript4CSV;
 public class TranscriptProcess
 {
-    public static readonly string version = "1.3";
+    public static readonly string version = "1.3.1";
 
     private static string vttFilePath = "";
     private static List<UtteranceData> utteranceDatas = new List<UtteranceData>();
@@ -112,7 +112,7 @@ public class TranscriptProcess
         {
             if(data.Text != null)
             {
-                if(data.Text.Length != 0)
+                if (data.Text.Length >= 3)
                 {
                     returnList.Add(data);
                 }
