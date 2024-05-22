@@ -24,18 +24,8 @@ class WordFunction
     {
         string formattingText = text;
 
-        Regex reg = new Regex("(?<endChar>[^A-Za-z]) (?<startChar>[^A-Za-z])");
-        for (Match m = reg.Match(formattingText); m.Success; m = m.NextMatch())
-        {
-            if(m.Groups["endChar"].Value == "す" || m.Groups["endChar"].Value == "た" || m.Groups["endChar"].Value == "る")
-            {
-                formattingText = formattingText.Replace(m.Value, m.Groups["endChar"]  + "。" + m.Groups["startChar"]);
-            }
-            else
-            {
-                formattingText = formattingText.Replace(m.Value, m.Groups["endChar"]  + "、" + m.Groups["startChar"]);
-            }
-        }
+        formattingText = AddPunctuationBetweenJapaneseAndJapanese(formattingText);
+
         char result = formattingText[formattingText.Length - 1];
         if(result == 'す' || result == 'た' || result == 'る')
         {
@@ -46,6 +36,8 @@ class WordFunction
             formattingText += "、";
         }
 
+        formattingText = RemovePeriodBetweenJapaneseAndNumbers(formattingText);
+
         foreach (string change in changeWordList)
         {
             string[] changeArray = change.Split(',');
@@ -55,6 +47,41 @@ class WordFunction
             }
         }
         return formattingText;
+    }
+
+    private string AddPunctuationBetweenJapaneseAndJapanese(string text)
+    {
+        string str = text;
+        Regex reg = new Regex("(?<endChar>[^A-Za-z]) (?<startChar>[^A-Za-z])");
+        for (Match m = reg.Match(str); m.Success; m = m.NextMatch())
+        {
+            if(m.Groups["endChar"].Value == "す" || m.Groups["endChar"].Value == "た" || m.Groups["endChar"].Value == "る")
+            {
+                str = str.Replace(m.Value, m.Groups["endChar"]  + "。" + m.Groups["startChar"]);
+            }
+            else
+            {
+                str = str.Replace(m.Value, m.Groups["endChar"]  + "、" + m.Groups["startChar"]);
+            }
+        }
+        return str;
+    }
+
+    private string RemovePeriodBetweenJapaneseAndNumbers(string text)
+    {
+        string str = text;
+        Regex reg2 = new Regex("(?<endChar>[0-9])、(?<startChar>[^A-Za-z])");
+        for (Match m = reg2.Match(str); m.Success; m = m.NextMatch())
+        {
+            str = str.Replace(m.Value, m.Groups["endChar"]  + "" + m.Groups["startChar"]);
+        }
+
+        Regex reg3 = new Regex("(?<endChar>[^A-Za-z])、(?<startChar>[0-9])");
+        for (Match m = reg3.Match(str); m.Success; m = m.NextMatch())
+        {
+            str = str.Replace(m.Value, m.Groups["endChar"]  + "" + m.Groups["startChar"]);
+        }
+        return str;
     }
 
     private List<string> MakeChangeWordList()
@@ -149,15 +176,37 @@ class WordFunction
         list.Add("おい、,");
         list.Add("そう。,");
         list.Add("そう、,");
+        list.Add("我、々、,我々");
+        list.Add("我、々,我々");
+        list.Add("我 々 ,我々");
+        list.Add("我 々,我々");
+        list.Add("色、々、,色々");
+        list.Add("色、々,色々");
+        list.Add("色 々 ,色々");
+        list.Add("色 々,色々");
+        list.Add("様、々、,様々");
+        list.Add("様、々,様々");
+        list.Add("様 々 ,様々");
+        list.Add("様 々,様々");
+        list.Add("長、々、,長々");
+        list.Add("長、々,長々");
+        list.Add("長 々 ,長々");
+        list.Add("長 々,長々");
         list.Add("あ。,");
         list.Add("あ、,");
         list.Add("ね。,");
         list.Add("ね、,");
+        list.Add("、、,、");
         list.Add("パワーオートメイト,Power Automate");
         list.Add("パワーアップス,Power Apps");
+        list.Add("シーオーツー,CO2");
         list.Add("リスツ,Lists");
         list.Add("異不分,if文");
+        list.Add("腫瘍ベンダ,主要ベンダ");
+        list.Add("内政力強化,内製力強化");
+        list.Add("内政力,内製力");
         list.Add("多過し,押下し");
+        list.Add("不10分,不十分");
         //list.Add(",");
         return list;
     }
