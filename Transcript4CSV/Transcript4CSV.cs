@@ -72,8 +72,8 @@ public class TranscriptProcess
         for (Match m = reg.Match(text); m.Success; m = m.NextMatch())
         {
             string formatStr = wordFunction.Formatting(m.Groups["text"].Value);
-            string[] speaker = m.Groups["speaker"].Value.Split('/');
-            modelList.Add(new UtteranceData { Speaker = speaker[0], Text = formatStr, StartDate = m.Groups["start"].Value, EndDate = m.Groups["end"].Value });
+            //string[] speaker = m.Groups["speaker"].Value.Split('/');
+            modelList.Add(new UtteranceData { Speaker = m.Groups["speaker"].Value, Text = formatStr, StartDate = m.Groups["start"].Value, EndDate = m.Groups["end"].Value });
         }
 
         return modelList;

@@ -46,7 +46,25 @@ class WordFunction
                 formattingText = formattingText.Replace(changeArray[0], changeArray[1]);
             }
         }
-        return formattingText;
+
+        return RemoveLastPeriod(formattingText);
+    }
+
+    private string RemoveLastPeriod(string text)
+    {
+        if(text.Length <= 0)
+        {
+            return text;
+        }
+
+        if(text[text.Length - 1] == '、')
+        {
+            return text.Substring(0, text.Length - 1);
+        }
+        else
+        {
+            return text;
+        }
     }
 
     private string AddPunctuationBetweenJapaneseAndJapanese(string text)
@@ -158,6 +176,8 @@ class WordFunction
         list.Add("あはい,");
         list.Add("あのう。,");
         list.Add("あのう、,");
+        list.Add("ました。,");
+        list.Add("ました、,");
         list.Add("あの。,");
         list.Add("あの、,");
         list.Add("あれ。,");
@@ -176,6 +196,8 @@ class WordFunction
         list.Add("おい、,");
         list.Add("そう。,");
         list.Add("そう、,");
+        list.Add("する。,");
+        list.Add("する、,");
         list.Add("我、々、,我々");
         list.Add("我、々,我々");
         list.Add("我 々 ,我々");
@@ -192,6 +214,7 @@ class WordFunction
         list.Add("長、々,長々");
         list.Add("長 々 ,長々");
         list.Add("長 々,長々");
+        list.Add("は？,");
         list.Add("あ。,");
         list.Add("あ、,");
         list.Add("ね。,");
@@ -199,6 +222,7 @@ class WordFunction
         list.Add("、、,、");
         list.Add("パワーオートメイト,Power Automate");
         list.Add("パワーアップス,Power Apps");
+        list.Add("アウトルック,Outlook");
         list.Add("シーオーツー,CO2");
         list.Add("リスツ,Lists");
         list.Add("異不分,if文");

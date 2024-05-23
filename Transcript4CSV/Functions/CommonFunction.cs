@@ -10,14 +10,7 @@ class CommonFunction
     public static bool JudgeVttFile(List<string> list)
     {
         string vttString = "WEBVTT";
-        if(list[0].Contains(vttString))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return list[0].Contains(vttString);
     }
 
     public static bool JudgeVttType(List<string> list)
@@ -27,15 +20,7 @@ class CommonFunction
         {
             sb.Append(data);
         }
-
-        if(sb.ToString().Contains("</v>"))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return sb.ToString().Contains("</v>");
     }
 
     public static string ListToString(List<string> list)
@@ -51,10 +36,47 @@ class CommonFunction
     public static string ConvertNewLineAndListString(List<string> list)
     {
         StringBuilder sb = new StringBuilder();
-        foreach(string data in list)
+        if(JudgeVttType(list))
         {
-            sb.Append(data + "\r\n");
+            foreach(string data in list)
+            {
+                sb.Append(data + "\r\n");
+            }
         }
+        else
+        {
+            int count = 0;
+            foreach(string data in list)
+            {
+                if(count == 0)
+                {
+                    sb.Append(data + "\r\n");
+                    if(data.Contains("-->"))
+                    {
+                        count = 1;
+                    }
+                }
+                else if(count == 1)
+                {
+                    sb.Append(data);
+                    count++;
+                }
+                else if(count >= 2)
+                {
+                    if(data == "")
+                    {
+                        sb.Append("\r\n");
+                        count = 0;
+                    }
+                    else
+                    {
+                        sb.Append(" " + data);
+                        count++;
+                    }
+                }
+            }
+        }
+
         return sb.ToString();
     }
 
