@@ -7,6 +7,11 @@ using Transcript4CSV.Model;
 namespace Transcript4CSV.Functions;
 class CommonFunction
 {
+    public static bool CheckExtensionVtt(string fileName)
+    {
+        return Path.GetExtension(fileName) == "vtt";
+    }
+
     public static bool JudgeVttFile(List<string> list)
     {
         string vttString = "WEBVTT";

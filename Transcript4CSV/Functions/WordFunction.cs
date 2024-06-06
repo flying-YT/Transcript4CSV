@@ -50,7 +50,7 @@ class WordFunction
         return RemoveLastPeriod(formattingText);
     }
 
-    private string RemoveLastPeriod(string text)
+    private static string RemoveLastPeriod(string text)
     {
         if(text.Length <= 0)
         {
@@ -67,7 +67,7 @@ class WordFunction
         }
     }
 
-    private string AddPunctuationBetweenJapaneseAndJapanese(string text)
+    private static string AddPunctuationBetweenJapaneseAndJapanese(string text)
     {
         string str = text;
         Regex reg = new Regex("(?<endChar>[^A-Za-z]) (?<startChar>[^A-Za-z])");
@@ -85,7 +85,7 @@ class WordFunction
         return str;
     }
 
-    private string RemovePeriodBetweenJapaneseAndNumbers(string text)
+    private static string RemovePeriodBetweenJapaneseAndNumbers(string text)
     {
         string str = text;
         Regex reg2 = new Regex("(?<endChar>[0-9])、(?<startChar>[^A-Za-z])");
@@ -104,133 +104,135 @@ class WordFunction
 
     private List<string> MakeChangeWordList()
     {
-        List<string> list = new List<string>();
-        list.Add("でしょうか,か");
-        list.Add("いたします、,する。");
-        list.Add("いたします。,する。");
-        list.Add("していましたが、,していたが、");
-        list.Add("していました。,していた。");
-        list.Add("できます。,できる。");
-        list.Add("しました、,した。");
-        list.Add("しました。,した。");
-        list.Add("思います。,思う。");
-        list.Add("します。,する。");
-        list.Add("承知しました,承知した");
-        list.Add("承知致しました,承知した");
-        list.Add("承知いたしました,承知した");
-        list.Add("大丈夫です,問題ない");
-        list.Add("問題ありません,問題ない");
-        list.Add("のところですね,ですね");
-        list.Add("というところ,ところ");
-        list.Add("ゆっていい,言っていい");
-        list.Add("2位のタイミング,任意のタイミング");
-        list.Add("まあちょっと。,");
-        list.Add("まあちょっと、,");
-        list.Add("まあちょっと。,");
-        list.Add("ちょっとですね。,");
-        list.Add("ちょっとですね、,");
-        list.Add("ちょっとだけ。,");
-        list.Add("ちょっとだけ、,");
-        list.Add("ちょっとだけ,");
-        list.Add("ちょっと。,");
-        list.Add("ちょっと、,");
-        list.Add("ちょっと,");
-        list.Add("はいでは。,");
-        list.Add("はいでは、,");
-        list.Add("はいで。,");
-        list.Add("はいで、,");
-        list.Add("そうそう。,");
-        list.Add("そうそう、,");
-        list.Add("あえっと。,");
-        list.Add("あえっと、,");
-        list.Add("あえっと,");
-        list.Add("ええっと？,");
-        list.Add("ええっと。,");
-        list.Add("ええっと、,");
-        list.Add("ええっと,");
-        list.Add("えっと。,");
-        list.Add("えっと、,");
-        list.Add("えっと,");
-        list.Add("ええと。,");
-        list.Add("ええと、,");
-        list.Add("えっ、とー。,");
-        list.Add("えっ、とー、,");
-        list.Add("ええと,");
-        list.Add("ええ？,");
-        list.Add("ええ！,");
-        list.Add("ええ。,");
-        list.Add("ええ、,");
-        list.Add("ええ,");
-        list.Add("えー。,");
-        list.Add("えー、,");
-        list.Add("えー,");
-        list.Add("え？,");
-        list.Add("まあまあ。,");
-        list.Add("まあまあ、,");
-        list.Add("まあ。,");
-        list.Add("まあ、,");
-        list.Add("どうぞ。,");
-        list.Add("どうぞ、,");
-        list.Add("あはい。,");
-        list.Add("あはい、,");
-        list.Add("あはい,");
-        list.Add("あのう。,");
-        list.Add("あのう、,");
-        list.Add("ました。,");
-        list.Add("ました、,");
-        list.Add("あの。,");
-        list.Add("あの、,");
-        list.Add("あれ。,");
-        list.Add("あれ、,");
-        list.Add("あぁ。,");
-        list.Add("あぁ、,");
-        list.Add("あー。,");
-        list.Add("あー、,");
-        list.Add("はい。,");
-        list.Add("はい、,");
-        list.Add("うん。,");
-        list.Add("うん、,");
-        list.Add("うーん。,");
-        list.Add("うーん、,");
-        list.Add("おい。,");
-        list.Add("おい、,");
-        list.Add("そう。,");
-        list.Add("そう、,");
-        list.Add("する。,");
-        list.Add("する、,");
-        list.Add("我、々、,我々");
-        list.Add("我、々,我々");
-        list.Add("我 々 ,我々");
-        list.Add("我 々,我々");
-        list.Add("色、々、,色々");
-        list.Add("色、々,色々");
-        list.Add("色 々 ,色々");
-        list.Add("色 々,色々");
-        list.Add("様、々、,様々");
-        list.Add("様、々,様々");
-        list.Add("様 々 ,様々");
-        list.Add("様 々,様々");
-        list.Add("長、々、,長々");
-        list.Add("長、々,長々");
-        list.Add("長 々 ,長々");
-        list.Add("長 々,長々");
-        list.Add("は？,");
-        list.Add("あ。,");
-        list.Add("あ、,");
-        list.Add("ね。,");
-        list.Add("ね、,");
-        list.Add("、、,、");
-        list.Add("パワーオートメイト,Power Automate");
-        list.Add("パワーアップス,Power Apps");
-        list.Add("アウトルック,Outlook");
-        list.Add("シーオーツー,CO2");
-        list.Add("リスツ,Lists");
-        list.Add("異不分,if文");
-        list.Add("腫瘍ベンダ,主要ベンダ");
-        list.Add("内政力強化,内製力強化");
-        list.Add("内政力,内製力");
-        list.Add("多過し,押下し");
-        list.Add("不10分,不十分");
+        List<string> list = new List<string>
+        {
+            "でしょうか,か",
+            "いたします、,する。",
+            "いたします。,する。",
+            "していましたが、,していたが、",
+            "していました。,していた。",
+            "できます。,できる。",
+            "しました、,した。",
+            "しました。,した。",
+            "思います。,思う。",
+            "します。,する。",
+            "承知しました,承知した",
+            "承知致しました,承知した",
+            "承知いたしました,承知した",
+            "大丈夫です,問題ない",
+            "問題ありません,問題ない",
+            "のところですね,ですね",
+            "というところ,ところ",
+            "ゆっていい,言っていい",
+            "2位のタイミング,任意のタイミング",
+            "まあちょっと。,",
+            "まあちょっと、,",
+            "まあちょっと。,",
+            "ちょっとですね。,",
+            "ちょっとですね、,",
+            "ちょっとだけ。,",
+            "ちょっとだけ、,",
+            "ちょっとだけ,",
+            "ちょっと。,",
+            "ちょっと、,",
+            "ちょっと,",
+            "はいでは。,",
+            "はいでは、,",
+            "はいで。,",
+            "はいで、,",
+            "そうそう。,",
+            "そうそう、,",
+            "あえっと。,",
+            "あえっと、,",
+            "あえっと,",
+            "ええっと？,",
+            "ええっと。,",
+            "ええっと、,",
+            "ええっと,",
+            "えっと。,",
+            "えっと、,",
+            "えっと,",
+            "ええと。,",
+            "ええと、,",
+            "えっ、とー。,",
+            "えっ、とー、,",
+            "ええと,",
+            "ええ？,",
+            "ええ！,",
+            "ええ。,",
+            "ええ、,",
+            "ええ,",
+            "えー。,",
+            "えー、,",
+            "えー,",
+            "え？,",
+            "まあまあ。,",
+            "まあまあ、,",
+            "まあ。,",
+            "まあ、,",
+            "どうぞ。,",
+            "どうぞ、,",
+            "あはい。,",
+            "あはい、,",
+            "あはい,",
+            "あのう。,",
+            "あのう、,",
+            "ました。,",
+            "ました、,",
+            "あの。,",
+            "あの、,",
+            "あれ。,",
+            "あれ、,",
+            "あぁ。,",
+            "あぁ、,",
+            "あー。,",
+            "あー、,",
+            "はい。,",
+            "はい、,",
+            "うん。,",
+            "うん、,",
+            "うーん。,",
+            "うーん、,",
+            "おい。,",
+            "おい、,",
+            "そう。,",
+            "そう、,",
+            "する。,",
+            "する、,",
+            "我、々、,我々",
+            "我、々,我々",
+            "我 々 ,我々",
+            "我 々,我々",
+            "色、々、,色々",
+            "色、々,色々",
+            "色 々 ,色々",
+            "色 々,色々",
+            "様、々、,様々",
+            "様、々,様々",
+            "様 々 ,様々",
+            "様 々,様々",
+            "長、々、,長々",
+            "長、々,長々",
+            "長 々 ,長々",
+            "長 々,長々",
+            "は？,",
+            "あ。,",
+            "あ、,",
+            "ね。,",
+            "ね、,",
+            "、、,、",
+            "パワーオートメイト,Power Automate",
+            "パワーアップス,Power Apps",
+            "アウトルック,Outlook",
+            "シーオーツー,CO2",
+            "リスツ,Lists",
+            "異不分,if文",
+            "腫瘍ベンダ,主要ベンダ",
+            "内政力強化,内製力強化",
+            "内政力,内製力",
+            "多過し,押下し",
+            "不10分,不十分"
+        };
         //list.Add(",");
         return list;
     }

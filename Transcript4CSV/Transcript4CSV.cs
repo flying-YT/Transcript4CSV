@@ -12,11 +12,16 @@ public class TranscriptProcess
 
     private static string vttFilePath = "";
     private static List<UtteranceData> utteranceDatas = new List<UtteranceData>();
-    private static WordFunction wordFunction = new WordFunction();
+    private static readonly WordFunction wordFunction = new WordFunction();
 
     public TranscriptProcess(string _vttFilePath)
     {
         vttFilePath = _vttFilePath;
+
+        if(!CommonFunction.CheckExtensionVtt(vttFilePath))
+        {
+            throw new Exception("Only files with the extension vtt are valid.");;
+        }
     }
 
     public void AddChangeWordList(string path)
@@ -47,7 +52,7 @@ public class TranscriptProcess
         // Judge vtt file
         if(!CommonFunction.JudgeVttFile(vttList))
         {
-            throw new Exception("The specified vttfile is not valid.");;
+            throw new Exception("The specified vttfile is not valid.");
         }
 
         // Judge vtt type
@@ -88,6 +93,11 @@ public class TranscriptProcess
         {
             if(utterance.Speaker == data.Speaker)
             {
+                if(utterance.Text == null)
+                {
+                    utterance.Text = "";
+                }
+
                 if(utterance.Text.Length <= 512)
                 {
                     utterance.Text += data.Text;

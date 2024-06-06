@@ -12,7 +12,7 @@ class FileFunction
         List<string> list = new List<string>();
         using (StreamReader sr = new StreamReader(path, Encoding.GetEncoding("UTF-8")))
         {
-            string line = "";
+            string? line = "";
             while ((line = sr.ReadLine()) != null)
             {
                 list.Add(line);
