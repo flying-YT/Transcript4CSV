@@ -4,21 +4,19 @@ using System.Text.RegularExpressions;
 
 using Transcript4CSV.Functions;
 using Transcript4CSV.Model;
+using Transcript4CSV.Parameters;
 
 namespace Transcript4CSV;
 public class TranscriptProcess
 {
-    public static readonly string version = "1.4.2";
-
     private static string vttFilePath = "";
-    private static bool isDebugMode = false;
     private static List<UtteranceData> utteranceDatas = new List<UtteranceData>();
     private static readonly WordFunction wordFunction = new WordFunction();
 
     public TranscriptProcess(string _vttFilePath, bool _isDebugMode = false)
     {
         vttFilePath = _vttFilePath;
-        isDebugMode = _isDebugMode;
+        StaticParameter.isDebugMode = _isDebugMode;
 
         if(!CommonFunction.CheckExtensionVtt(vttFilePath))
         {
@@ -80,7 +78,6 @@ public class TranscriptProcess
         for (Match m = reg.Match(text); m.Success; m = m.NextMatch())
         {
             string formatStr = wordFunction.Formatting(m.Groups["text"].Value);
-            Console.WriteLine("m.Groups[speaker].Value" + m.Groups["speaker"].Value);
             modelList.Add(new UtteranceData { Speaker = m.Groups["speaker"].Value, Text = formatStr, StartDate = m.Groups["start"].Value, EndDate = m.Groups["end"].Value });
         }
 
