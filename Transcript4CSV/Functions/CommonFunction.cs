@@ -9,7 +9,8 @@ class CommonFunction
 {
     public static bool CheckExtensionVtt(string fileName)
     {
-        return Path.GetExtension(fileName) == "vtt";
+        Console.WriteLine(Path.GetExtension(fileName));
+        return Path.GetExtension(fileName) == ".vtt";
     }
 
     public static bool JudgeVttFile(List<string> list)

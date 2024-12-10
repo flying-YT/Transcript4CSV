@@ -8,7 +8,7 @@ using Transcript4CSV.Model;
 namespace Transcript4CSV;
 public class TranscriptProcess
 {
-    public static readonly string version = "1.4.0";
+    public static readonly string version = "1.4.2";
 
     private static string vttFilePath = "";
     private static List<UtteranceData> utteranceDatas = new List<UtteranceData>();
@@ -78,6 +78,7 @@ public class TranscriptProcess
         {
             string formatStr = wordFunction.Formatting(m.Groups["text"].Value);
             //string[] speaker = m.Groups["speaker"].Value.Split('/');
+            Console.WriteLine("m.Groups[speaker].Value" + m.Groups["speaker"].Value);
             modelList.Add(new UtteranceData { Speaker = m.Groups["speaker"].Value, Text = formatStr, StartDate = m.Groups["start"].Value, EndDate = m.Groups["end"].Value });
         }
 
