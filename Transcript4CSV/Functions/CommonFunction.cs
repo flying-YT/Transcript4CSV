@@ -19,6 +19,7 @@ class CommonFunction
         return list[0].Contains(vttString);
     }
 
+
     public static bool JudgeVttType(List<string> list)
     {
         StringBuilder sb = new StringBuilder();
@@ -39,9 +40,11 @@ class CommonFunction
         return sb.ToString();
     }
 
+    // Convert List<string> to string including line breaks
     public static string ConvertNewLineAndListString(List<string> list)
     {
         StringBuilder sb = new StringBuilder();
+        // If it includes a V tag, add a line break as is.
         if(JudgeVttType(list))
         {
             foreach(string data in list)
@@ -49,40 +52,38 @@ class CommonFunction
                 sb.Append(data + "\r\n");
             }
         }
+        // Consider the possibility that the recognized text has line breaks
         else
         {
-            int count = 0;
+            bool inCaptionBlock = false;
             foreach(string data in list)
             {
-                if(count == 0)
+                if (data.Contains("-->"))
                 {
+                    // Start of caption block
                     sb.Append(data + "\r\n");
-                    if(data.Contains("-->"))
-                    {
-                        count = 1;
-                    }
+                    inCaptionBlock = true;
                 }
-                else if(count == 1)
+                else if (string.IsNullOrWhiteSpace(data))
                 {
+                    // Empty lines are treated as new lines
+                    sb.Append("\r\n");
+                    inCaptionBlock = false; // End caption block with blank line
+                }
+                else if (inCaptionBlock)
+                {
+                    // Text within caption block
                     sb.Append(data);
-                    count++;
                 }
-                else if(count >= 2)
+                else
                 {
-                    if(data == "")
-                    {
-                        sb.Append("\r\n");
-                        count = 0;
-                    }
-                    else
-                    {
-                        sb.Append(" " + data);
-                        count++;
-                    }
+                    // Line before caption block starts (ex: WEBVTT)
+                    sb.Append(data + "\r\n");
                 }
             }
         }
 
+        Console.WriteLine(sb.ToString());
         return sb.ToString();
     }
 
