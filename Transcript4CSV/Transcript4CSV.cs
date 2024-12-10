@@ -39,6 +39,11 @@ public class TranscriptProcess
         FileFunction.WriteCSVFile(utteranceDatas, outputPath, isHeader);
     }
 
+    public void WriteJSONFile(string outputPath)
+    {
+        FileFunction.WriteJSONFile(utteranceDatas, outputPath);
+    }
+
     public List<string> GetCSVData(bool isHeader=false)
     {
         return CommonFunction.ConvertCSVList(utteranceDatas, isHeader);
