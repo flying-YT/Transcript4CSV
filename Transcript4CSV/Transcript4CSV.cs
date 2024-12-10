@@ -11,12 +11,14 @@ public class TranscriptProcess
     public static readonly string version = "1.4.2";
 
     private static string vttFilePath = "";
+    private static bool isDebugMode = false;
     private static List<UtteranceData> utteranceDatas = new List<UtteranceData>();
     private static readonly WordFunction wordFunction = new WordFunction();
 
-    public TranscriptProcess(string _vttFilePath)
+    public TranscriptProcess(string _vttFilePath, bool _isDebugMode = false)
     {
         vttFilePath = _vttFilePath;
+        isDebugMode = _isDebugMode;
 
         if(!CommonFunction.CheckExtensionVtt(vttFilePath))
         {
@@ -55,23 +57,24 @@ public class TranscriptProcess
             throw new Exception("The specified vttfile is not valid.");
         }
 
-        // Judge vtt type
-        bool isVtagType = CommonFunction.JudgeVttType(vttList);
-
         // Make UtteranceDataList
-        List<UtteranceData> utteranceDataList = MakeUtteranceDataList(vttList, isVtagType);
+        List<UtteranceData> utteranceDataList = MakeUtteranceDataList(vttList);
 
         // Sort speaker to List
         utteranceDatas = SortSpeakerToList(utteranceDataList);
     }
 
-    private static List<UtteranceData> MakeUtteranceDataList(List<string> list, bool _isVtagType)
+    private static List<UtteranceData> MakeUtteranceDataList(List<string> list)
     {
         List<UtteranceData> modelList = new List<UtteranceData>();
 
         string text = CommonFunction.ConvertNewLineAndListString(list);
         text = text.Replace("WEBVTT", "");
+
         string lineKey = TypeCheckFunction.GetLineKey(text);
+        if(lineKey == "") {
+            throw new Exception("Does not match any format.");
+        }
 
         Regex reg = new Regex(lineKey, RegexOptions.IgnoreCase | RegexOptions.Singleline);
         for (Match m = reg.Match(text); m.Success; m = m.NextMatch())
