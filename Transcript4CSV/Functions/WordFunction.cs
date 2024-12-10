@@ -22,6 +22,10 @@ class WordFunction
 
     public string Formatting(string text)
     {
+        if(text == null) {
+            return null;
+        }
+
         string formattingText = text;
 
         formattingText = AddPunctuationBetweenJapaneseAndJapanese(formattingText);
@@ -230,7 +234,7 @@ class WordFunction
             "アウトルック,Outlook",
             "セールス、フォース,Salesforce",
             "セールスフォース,Salesforce",
-           "シーオーツー,CO2",
+            "シーオーツー,CO2",
             "リスツ,Lists",
             "異不分,if文",
             "腫瘍ベンダ,主要ベンダ",
@@ -243,7 +247,6 @@ class WordFunction
             "不10分,不十分",
             "しゅくしゅくと,粛々と"
         };
-        //list.Add(",");
         return list;
     }
 }
