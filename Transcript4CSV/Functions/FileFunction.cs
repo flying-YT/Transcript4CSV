@@ -36,7 +36,7 @@ class FileFunction
         }
         catch (Exception e)
         {
-            Console.WriteLine(e.Message);
+            CommonFunction.ConsoleWrite(e.Message);
         }
     }
 
@@ -56,21 +56,19 @@ class FileFunction
                 writer.Write(jsonString);
             }
 
-            if(StaticParameter.isDebugMode) {
-                Console.WriteLine($"JSONデータが{path}に書き込まれました。");
-            }
+            CommonFunction.ConsoleWrite($"JSONデータが{path}に書き込まれました。");
         }
         catch (JsonException ex)
         {
-            Console.WriteLine($"JSONシリアライズエラー: {ex.Message}");
+            CommonFunction.ConsoleWrite($"JSONシリアライズエラー: {ex.Message}");
         }
         catch (IOException ex)
         {
-            Console.WriteLine($"ファイル書き込みエラー: {ex.Message}");
+            CommonFunction.ConsoleWrite($"ファイル書き込みエラー: {ex.Message}");
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"予期せぬエラーが発生しました: {ex.Message}");
+            CommonFunction.ConsoleWrite($"予期せぬエラーが発生しました: {ex.Message}");
         }
     }
 }

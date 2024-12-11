@@ -2,14 +2,21 @@ using System;
 using System.Text;
 
 using Transcript4CSV.Model;
-
+using Transcript4CSV.Parameters;
 
 namespace Transcript4CSV.Functions;
 class CommonFunction
 {
+    public static void ConsoleWrite(string text)
+    {
+        if(StaticParameter.isDebugMode) {
+            Console.WriteLine(text);
+        }
+    }
+
     public static bool CheckExtensionVtt(string fileName)
     {
-        Console.WriteLine(Path.GetExtension(fileName));
+        ConsoleWrite(Path.GetExtension(fileName));
         return Path.GetExtension(fileName) == ".vtt";
     }
 
@@ -83,7 +90,7 @@ class CommonFunction
             }
         }
 
-        Console.WriteLine(sb.ToString());
+        ConsoleWrite(sb.ToString());
         return sb.ToString();
     }
 

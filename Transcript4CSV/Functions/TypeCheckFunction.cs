@@ -28,7 +28,7 @@ class TypeCheckFunction
                 break;
             }
         }
-        System.Console.WriteLine("linekey:" + lineKey);
+        CommonFunction.ConsoleWrite("linekey:" + lineKey);
         return lineKey;
     }
 }
