@@ -1,5 +1,6 @@
 using System;
 using System.Text;
+using System.Text.Json;
 
 using Transcript4CSV.Model;
 
@@ -35,7 +36,39 @@ class FileFunction
         }
         catch (Exception e)
         {
-            Console.WriteLine(e.Message);
+            CommonFunction.ConsoleWrite(e.Message);
+        }
+    }
+
+    public static void WriteJSONFile(List<UtteranceData> datas, string path)
+    {
+        try 
+        {
+            // JSON serialization options. indent
+            var options = new JsonSerializerOptions { WriteIndented = true };
+
+            // Convert to JSON string
+            string jsonString = JsonSerializer.Serialize(datas, options);
+
+            // Write the file in UTF-8
+            using (StreamWriter writer = new StreamWriter(path, false, Encoding.UTF8))
+            {
+                writer.Write(jsonString);
+            }
+
+            CommonFunction.ConsoleWrite($"JSONデータが{path}に書き込まれました。");
+        }
+        catch (JsonException ex)
+        {
+            CommonFunction.ConsoleWrite($"JSONシリアライズエラー: {ex.Message}");
+        }
+        catch (IOException ex)
+        {
+            CommonFunction.ConsoleWrite($"ファイル書き込みエラー: {ex.Message}");
+        }
+        catch (Exception ex)
+        {
+            CommonFunction.ConsoleWrite($"予期せぬエラーが発生しました: {ex.Message}");
         }
     }
 }
