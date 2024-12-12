@@ -39,7 +39,7 @@ class CommonFunction
 
     public static string ListToString(List<string> list)
     {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new();
         foreach(string data in list)
         {
             sb.Append(data);
@@ -96,7 +96,7 @@ class CommonFunction
 
     public static List<string> ConvertCSVList(List<UtteranceData> datas, bool isHeader=true)
     {
-        List<string> list = new List<string>();
+        List<string> list = new();
 
         if(isHeader)
         {
