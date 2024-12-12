@@ -51,11 +51,16 @@ public class TranscriptProcess
 
     public void MakeCSVList()
     {
+        List<string>? vttList;
         // Read vtt file
-        List<string> vttList = FileFunction.ReadFile(vttFilePath);
+        try {
+            vttList = FileFunction.ReadFile(vttFilePath);
+        } catch {
+            throw new Exception("An error occurred while loading the file.");
+        }
 
         // Judge vtt file
-        if(!CommonFunction.JudgeVttFile(vttList))
+        if(vttList == null || !CommonFunction.JudgeVttFile(vttList))
         {
             throw new Exception("The specified vttfile is not valid.");
         }
