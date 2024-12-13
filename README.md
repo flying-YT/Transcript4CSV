@@ -1,4 +1,4 @@
-# Transcript4CS:C# library to convert subtitle files to CSV or JSON
+# Transcript4CSV:C# library to convert subtitle files to CSV or JSON
 This library can easily convert subtitle files (.vtt format) to CSV or JSON files.
 Outputs time codes, text, and metadata in CSV or JSON formate, useful for data analysis and text processing.
 
@@ -9,7 +9,11 @@ Outputs time codes, text, and metadata in CSV or JSON formate, useful for data a
 - Conversion to CSV or JSON.
 - If there is speaker information, separate it for each speaker.
 
+## Dependencies
+Standard library only for .net6 and later. No other external libraries.
+
 ## Usage
+Please refer to the execution code in the [Sample folder](/Sample).
 1. Add dll<br>
     Add the dll to your project
 2. Add using<br>

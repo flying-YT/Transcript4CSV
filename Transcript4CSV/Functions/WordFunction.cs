@@ -26,7 +26,7 @@ class WordFunction
     public string Formatting(string text)
     {
         if(text == null) {
-            return null;
+            return "";
         }
 
         string formattingText = text;
