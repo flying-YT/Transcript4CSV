@@ -1,6 +1,4 @@
-﻿using System;
-using System.Text;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 using Transcript4CSV.Functions;
 using Transcript4CSV.Model;
@@ -56,7 +54,7 @@ public class TranscriptProcess
         try {
             vttList = FileFunction.ReadFile(vttFilePath);
         } catch {
-            throw new Exception("An error occurred while loading the file.");
+            throw new Exception($"An error occurred while loading the file. path: { vttFilePath }");
         }
 
         // Judge vtt file
